@@ -1,6 +1,8 @@
 *.ipynb*
 *.pyc
 *.swp
+tags
+tags-opts
 
 .DS_Store
 .idea/
