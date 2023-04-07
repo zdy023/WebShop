@@ -61,22 +61,11 @@
                 <div class="media align-items-lg-center flex-column flex-lg-row p-3">
                   <div class="media-body order-2 order-lg-1 searched-product">
                     {% set item_page_url = url_for('item_page', session_id=session_id, asin=item.asin, keywords=keywords, page=page, options=dict() ) %}
-                    <h4 class="mt-0 font-weight-bold mb-2 product-asin"><a class="product-link" href="{{ item_page_url }}">{{item.asin}}</a></h5>
-                    <h4 class="mt-0 font-weight-bold mb-2 product-title">{{item.Title}}</h5>
+                    <h4 class="mt-0 font-weight-bold mb-2 product-asin"><a class="product-link" href="{{ item_page_url }}">{{item.asin}}</a></h4>
+                    <h4 class="mt-0 font-weight-bold mb-2 product-title">{{item.Title}}</h4>
                     <div class="d-flex align-items-center justify-content-between mt-1">
-                      <h5 class="font-weight-bold my-2 product-price">{{item.Price}}</h6>
+                      <h5 class="font-weight-bold my-2 product-price">{{item.Price}}</h5>
                     </div>
-<!--
-                    <div class="d-flex align-items-center justify-content-between mt-1">
-                      <h5 class="font-weight-bold my-2 product-category">{{item.category}}</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mt-1">
-                      <h5 class="font-weight-bold my-2 product-query">{{item.query}}</h5>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mt-1">
-                      <h5 class="font-weight-bold my-2 product-product_category">{{item.product_category}}</h5>
-                    </div>
--->
                   </div>
                 </div>
             </ul>
