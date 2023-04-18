@@ -1,2 +1,4 @@
 *.list
 version.folder
+!pub-to-mine.list
+logs-align
