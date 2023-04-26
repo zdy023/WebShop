@@ -130,7 +130,7 @@ class WebAgentTextEnv(gym.Env):
         search_bar = html_obj.find(id='search_input')
         has_search_bar = True if search_bar is not None else False
         buttons = html_obj.find_all(class_='btn')
-        product_links  = html_obj.find_all(class_='product-link')
+        product_links  = html_obj.find_all(class_='product-link')[:3]
         buying_options = html_obj.select('input[type="radio"]')
 
         self.text_to_clickable = {
@@ -215,24 +215,42 @@ class WebAgentTextEnv(gym.Env):
         else:
             # Otherwise, return an observation with tags mapped to specific, unique separators
             observation = ''
+            prod_cnt = 0 # count of the product branch
+            just_prod = 0 # count after the last product branch
             for t in visible_texts:
                 if t == '\n': continue
+                if t.replace('\n', '').replace('\\n', '').replace(' ', '') == '': continue
                 if t.parent.name == 'button':  # button
-                    processed_t = f'[button] {t} [button_]'
+                    #processed_t = f'[button] {t} [button_]'
+                    processed_t = "\n[{:}]".format(t)
                 elif t.parent.name == 'label':  # options
                     if f'"{t}"' in self.state['url']:
-                        processed_t = f'  [clicked button] {t} [clicked button_]'
-                        observation = f'You have clicked {t}.\n' + observation
+                        #processed_t = f'  [clicked button] {t} [clicked button_]'
+                        processed_t = "[[{:}]]".format(t)
+                        #observation = f'You have clicked {t}.\n' + observation
+                        observation = f'\nYou have clicked {t}.' + observation
                     else:
-                        processed_t = f'  [button] {t} [button_]'
+                        #processed_t = f'  [button] {t} [button_]'
+                        processed_t = "[{:}]".format(t)
                 elif t.parent.get('class') == ["product-link"]: # product asins
                     if f'{t}' in self.server.user_sessions[self.session]['asins']:
-                        processed_t = f'\n[clicked button] {t} [clicked button_]'
+                        #processed_t = f'\n[clicked button] {t} [clicked button_]'
+                        processed_t = "\n[[{:}]]".format(t)
                     else:
-                        processed_t = f'\n[button] {t} [button_]'
+                        #processed_t = f'\n[button] {t} [button_]'
+                        processed_t = "\n[{:}]".format(t)
+                    if prod_cnt>=3:
+                        processed_t = ""
+                    prod_cnt += 1
+                    just_prod = 0
                 else: # regular, unclickable text
-                    processed_t =  str(t)
-                observation += processed_t + '\n'
+                    #processed_t =  str(t)
+                    processed_t = "\n" + str(t) + " "
+                    if just_prod<=2 and prod_cnt>=4:
+                        processed_t = ""
+                just_prod += 1
+                #observation += processed_t + '\n'
+                observation += processed_t
             return observation
     
     def reset(self, session=None, instruction_text=None):
