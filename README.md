@@ -1,3 +1,12 @@
+Changelist:
+
++ fixed typos in the HTML templates
+  - `web_agent_site/templates/done_page.html`
+  - `web_agent_site/templates/results_page.html`
++ simplified the `text_rich` format in exactly the same way with that in
+  [ReAct](https://github.com/ysymyth/ReAct).
+  - `web_agent_site/envs/web_agent_text_env.py`
+
 # 🛒 WebShop
 
 [![Python version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/release/python-3813/)
